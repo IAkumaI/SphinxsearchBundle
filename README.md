@@ -27,6 +27,11 @@ Known exceptions
 - **EmptyIndexException** - you will see this exception if try to search without indexes.
 - **NoSphinxAPIException** - this exception throws if not SphinxAPI was found.
 
+
+Rewrite search class
+--------------------
+Maybe you want to use another class in *@iakumai.sphinxsearch.search* service. To do this set a parameter %iakumai.sphinxsearch.search.class% to full name of your class.
+
 Example - simple
 ----------------
 
