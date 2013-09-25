@@ -86,7 +86,7 @@ class Sphinxsearch
 
         $qIndex = implode(' ', $indexes);
 
-        $results = $this->sphinx->query($query, $indexNames);
+        $results = $this->sphinx->query($query, $qIndex);
 
         if (!is_array($results) || !isset($results['status']) || $results['status'] !== SEARCHD_OK) {
             throw new \RuntimeException(sprintf('Searching for "%s" failed with error "%s"', $query, $this->sphinx->getLastError()));
