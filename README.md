@@ -22,6 +22,11 @@ sphinxsearch:
         socket:   /path/to/socket.file
 ```
 
+Known exceptions
+----------------
+- **EmptyIndexException** - you will see this exception if try to search without indexes.
+- **NoSphinxAPIException** - this exception throws if not SphinxAPI was found.
+
 Example - simple
 ----------------
 
