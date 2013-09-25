@@ -18,13 +18,6 @@
     "require": {
         "php": ">=5.3.3"
     },
-    "replace": [
-        "search/sphinxsearch-bundle",
-        "tear/sphinxsearch-bundle",
-        "delocker/sphinxsearch-bundle",
-        "verdet/sphinxsearch-bundle",
-        "emgiezet/sphinxsearch-bundle"
-    ],
     "autoload": {
         "psr-0": {
             "IAkumaI\\SphinxsearchBundle": "src/"
