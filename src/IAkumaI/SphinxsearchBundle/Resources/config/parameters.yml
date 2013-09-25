@@ -1,0 +1,2 @@
+parameters:
+    iakumai.sphinxsearch.search.class: IAkumaI\SphinxsearchBundle\Search\Sphinxsearch

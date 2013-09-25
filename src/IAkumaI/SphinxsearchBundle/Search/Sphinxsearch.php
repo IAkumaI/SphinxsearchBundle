@@ -51,7 +51,7 @@ class Sphinxsearch
 
         $this->sphinx = new SphinxClient();
 
-        if ($!is_null($this->socket)) {
+        if (!is_null($this->socket)) {
             $this->sphinx->setServer($this->socket);
         } else {
             $this->sphinx->setServer($this->host, $this->port);
