@@ -1,6 +1,5 @@
 {
     "name": "iakumai/sphinxsearch-bundle",
-    "version": "0.1.0-dev",
     "type": "symfony-bundle",
     "description": "Sphinx search bundle for Symfony 2",
     "keywords": ["sphinx", "sphinxsearch", "symfony2"],
