@@ -13,4 +13,4 @@ services:
     # Doctrine Bridge
     iakumai.sphinxsearch.doctrine.bridge:
         class: %iakumai.sphinxsearch.doctrine.bridge.class%
-        arguments: [@container, %iakumai.sphinxsearch.doctrine.entity_manager%, %iakumai.sphinxsearch.indexes%]
+        arguments: [@service_container, %iakumai.sphinxsearch.doctrine.entity_manager%, %iakumai.sphinxsearch.indexes%]
