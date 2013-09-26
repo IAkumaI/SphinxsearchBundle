@@ -29,12 +29,13 @@ class SphinxsearchExtension extends \Twig_Extension
      * @param string $text Text content
      * @param string $index Sphinx index name
      * @param string $query Query to search
+     * @param array[optional] $options Options to pass to SphinxAPI
      *
      * @return string
      */
-    public function sphinx_highlight($text, $index, $query)
+    public function sphinx_highlight($text, $index, $query, $options = array())
     {
-        $result = $this->searchd->getClient()->BuildExcerpts(array($text), $index, $query);
+        $result = $this->searchd->getClient()->BuildExcerpts(array($text), $index, $query, $options);
 
         if (!empty($result[0])) {
             return $result[0];
