@@ -176,4 +176,13 @@ class Sphinxsearch
             trigger_error("Call to undefined method '{$method}'");
         }
     }
+
+    /**
+     * Get Sphinx client
+     * @return SphinxClient
+     */
+    public function getClient()
+    {
+        return $this->sphinx;
+    }
 }
