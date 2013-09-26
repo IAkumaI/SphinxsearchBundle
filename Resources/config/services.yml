@@ -14,3 +14,10 @@ services:
     iakumai.sphinxsearch.doctrine.bridge:
         class: %iakumai.sphinxsearch.doctrine.bridge.class%
         arguments: [@service_container, %iakumai.sphinxsearch.doctrine.entity_manager%, %iakumai.sphinxsearch.indexes%]
+
+    # Twig extension
+    iakumai.sphinxsearch.twig.extension_0:
+        class: IAkumaI\SphinxsearchBundle\SphinxsearchExtension
+        arguments: [@iakumai.sphinxsearch.search]
+        tags:
+            - {name: twig.extension}
