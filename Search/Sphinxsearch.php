@@ -2,33 +2,42 @@
 
 namespace IAkumaI\SphinxsearchBundle\Search;
 
-use IAkumaI\SphinxsearchBundle\Exception\EmptyIndexException;
-use IAkumaI\SphinxsearchBundle\Exception\NoSphinxAPIException;
-
 use SphinxClient;
 
+use IAkumaI\SphinxsearchBundle\Exception\EmptyIndexException;
+use IAkumaI\SphinxsearchBundle\Exception\NoSphinxAPIException;
+use IAkumaI\SphinxsearchBundle\Doctrine\BridgeInterface;
 
+
+/**
+ * Sphinx search engine
+ */
 class Sphinxsearch
 {
     /**
      * @var string $host
      */
-    private $host;
+    protected $host;
 
     /**
      * @var string $port
      */
-    private $port;
+    protected $port;
 
     /**
      * @var string $socket
      */
-    private $socket;
+    protected $socket;
 
     /**
      * @var SphinxClient $sphinx
      */
-    private $sphinx;
+    protected $sphinx;
+
+    /**
+     * @var BridgeInterface
+     */
+    protected $bridge;
 
     /**
      * Constructor
@@ -64,6 +73,16 @@ class Sphinxsearch
     }
 
     /**
+     * Set bridge to database
+     *
+     * @param BridgeInterface $bridge
+     */
+    public function setBridge(BridgeInterface $bridge)
+    {
+        $this->bridge = $bridge;
+    }
+
+    /**
      * Search for a query string
      * @param  string  $query   Search query
      * @param  array   $indexes Index list to perform the search
@@ -93,6 +112,40 @@ class Sphinxsearch
         }
 
         return $results;
+    }
+
+    /**
+     * Search for a query string and convert results to entities
+     * @param  string  $query   Search query
+     * @param  string   $index Index name for search (yes, only one)
+     * @param  boolean $escape  Should the query to be escaped?
+     *
+     * @return array           Search results
+     *
+     * @throws InvalidArgumentException If $index is not valid
+     * @throws LogicException If bridge was not set
+     */
+    public function searchEx($query, $index, $escape = true)
+    {
+        if (!is_string($index)) {
+            throw new \InvalidArgumentException('Index must be a string');
+        }
+
+        if (mb_strpos($index, ' ') !== false || mb_strpos($index, "\t") !== false) {
+            throw new \InvalidArgumentException('Index must not contains a spaces');
+        }
+
+        if ($this->bridge === null) {
+            throw new \LogicException('Bridge was not set');
+        }
+
+        $results = $this->search($query, array($index), $escape);
+
+        if (empty($results) || !empty($results['error'])) {
+            return $results;
+        }
+
+        return $this->bridge->parseResults($results, $index);
     }
 
     /**

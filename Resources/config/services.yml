@@ -7,3 +7,10 @@ services:
             - %iakumai.sphinxsearch.searchd.host%
             - %iakumai.sphinxsearch.searchd.port%
             - %iakumai.sphinxsearch.searchd.socket%
+        calls:
+            - [setBridge, [@iakumai.sphinxsearch.doctrine.bridge]]
+
+    # Doctrine Bridge
+    iakumai.sphinxsearch.doctrine.bridge:
+        class: %iakumai.sphinxsearch.doctrine.bridge.class%
+        arguments: [@container, %iakumai.sphinxsearch.doctrine.entity_manager%, %iakumai.sphinxsearch.indexes%]
