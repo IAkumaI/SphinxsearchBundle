@@ -98,7 +98,7 @@ public function searchAction(Request $request)
 }
 ```
 
-Now bundle can auto convert search results to entities if you will search for one index.
+Now bundle can auto convert search results to entities if you will search for one index or define a *index_name* attribute in sphinx config.
 To to this, first configure index names, for example:
 ``` yml
 # app/config/config.yml
@@ -107,33 +107,37 @@ sphinxsearch:
         IndexName: "Bundle:Entity"
 ```
 
+To convert multiple queries please add *index_name* attribute to your sphinx.conf file, for example:
+```
+source Example
+{
+    sql_query = SELECT id, ...., 'IndexName' as 'index_name' FROM my_table
+    sql_attr_string = index_name
+}
+
+index IndexName
+{
+    source = Example
+    path = /your/own/path
+}
+```
+
 Now you can execute searchEx() method:
 ``` php
 // In a controller
 public function searchAction(Request $request)
 {
     $searchd = $this->get('iakumai.sphinxsearch.search');
-    return $sphinxSearch->searchEx($request->query->get('q', ''), 'IndexName');
+    $results_one = $sphinxSearch->searchEx($request->query->get('q', ''), 'IndexName');
+    // or for multiple indexes (index_name attribute must exists)
+    $results_two = $sphinxSearch->searchEx($request->query->get('q', ''), array('IndexName', 'SeconIndexName'));
 }
 ```
 
-It return something like this:
+**$results_one** now will contains something like this:
 ```
 array(10) {
-  ["error"]=>
-  string(0) ""
-  ["warning"]=>
-  string(0) ""
-  ["status"]=>
-  int(0)
-  ["fields"]=>
-  array(1) {
-    [0]=>
-    string(5) "title"
-  }
-  ["attrs"]=>
-  array(0) {
-  }
+  .....
   ["matches"]=>
   array(20) {
     [22]=>
@@ -145,12 +149,23 @@ array(10) {
       }
       ["entity"]=> ... // Here is your Bundle:Entity
     }
-    [23]=>
+    .........
+```
+
+**$results_two** now will contains something like this:
+```
+array(10) {
+  .....
+  ["matches"]=>
+  array(20) {
+    [22]=>
     array(3) {
       ["weight"]=>
       string(1) "2"
       ["attrs"]=>
       array(0) {
+        ["index_name"]=>
+        string(9) "IndexName"
       }
       ["entity"]=> ... // Here is your Bundle:Entity
     }

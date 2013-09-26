@@ -117,7 +117,7 @@ class Sphinxsearch
     /**
      * Search for a query string and convert results to entities
      * @param  string  $query   Search query
-     * @param  string   $index Index name for search (yes, only one)
+     * @param  string|array   $index Index name(s) for search
      * @param  boolean $escape  Should the query to be escaped?
      *
      * @return array           Search results
@@ -127,11 +127,11 @@ class Sphinxsearch
      */
     public function searchEx($query, $index, $escape = true)
     {
-        if (!is_string($index)) {
-            throw new \InvalidArgumentException('Index must be a string');
+        if (!is_string($index) && !is_array($index)) {
+            throw new \InvalidArgumentException('Index must be a string or an array');
         }
 
-        if (mb_strpos($index, ' ') !== false || mb_strpos($index, "\t") !== false) {
+        if (is_string($index) && (mb_strpos($index, ' ') !== false || mb_strpos($index, "\t") !== false)) {
             throw new \InvalidArgumentException('Index must not contains a spaces');
         }
 
@@ -139,7 +139,7 @@ class Sphinxsearch
             throw new \LogicException('Bridge was not set');
         }
 
-        $results = $this->search($query, array($index), $escape);
+        $results = $this->search($query, (is_string($index) ? array($index) : $index), $escape);
 
         if (empty($results) || !empty($results['error'])) {
             return $results;

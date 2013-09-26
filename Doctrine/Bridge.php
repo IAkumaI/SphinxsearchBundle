@@ -93,12 +93,12 @@ class Bridge implements BridgeInterface
     /**
      * Add entity list to sphinx search results
      * @param  array  $results Sphinx search results
-     * @param  string $index   Index name
+     * @param  string|array $index   Index name(s)
      *
      * @return array
      *
      * @throws LogicException If results come with error
-     * @throws InvalidArgumentException If index name is not configured
+     * @throws InvalidArgumentException If index name is not valid
      */
     public function parseResults(array $results, $index)
     {
@@ -106,8 +106,16 @@ class Bridge implements BridgeInterface
             throw new \LogicException('Search completed with errors');
         }
 
-        if (!isset($this->indexes[$index])) {
-            throw new \InvalidArgumentException('Unknown index name');
+        if (is_string($index)) {
+            if (!isset($this->indexes[$index])) {
+                throw new \InvalidArgumentException('Unknown index name: '.$index);
+            }
+        } elseif (is_array($index)) {
+            foreach ($index as $idx) {
+                if (!isset($this->indexes[$idx])) {
+                    throw new \InvalidArgumentException('Unknown index name: '.$idx);
+                }
+            }
         }
 
         if (empty($results['matches'])) {
@@ -115,7 +123,14 @@ class Bridge implements BridgeInterface
         }
 
         foreach ($results['matches'] as $id => &$match) {
-            $match['entity'] = $this->getEntityManager()->getRepository($this->indexes[$index])->find($id);
+            $match['entity'] = false;
+
+            if (is_string($index)) {
+                $match['entity'] = $this->getEntityManager()->getRepository($this->indexes[$index])->find($id);
+            } elseif (is_array($index) && isset($match['attrs']['index_name']) && isset($this->indexes[$match['attrs']['index_name']])) {
+                $entityName = $this->indexes[$match['attrs']['index_name']];
+                $match['entity'] = $this->getEntityManager()->getRepository($entityName)->find($id);
+            }
         }
 
         return $results;
