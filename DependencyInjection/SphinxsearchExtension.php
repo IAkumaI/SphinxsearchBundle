@@ -33,6 +33,10 @@ class SphinxsearchExtension extends Extension
         if (isset($config['sphinx_api'])) {
             $container->setParameter('iakumai.sphinxsearch.sphinx_api.file', $config['sphinx_api']['file']);
         }
+
+        if (isset($config['indexes'])) {
+            $container->setParameter('iakumai.sphinxsearch.indexes', $config['indexes']);
+        }
     }
 
     public function getAlias()
