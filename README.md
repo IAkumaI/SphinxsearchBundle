@@ -72,6 +72,20 @@ Exceptions
 - **EmptyIndexException** - you will see this exception if try to search without indexes.
 - **NoSphinxAPIException** - this exception throws if not SphinxAPI was found.
 
+Highlight search results
+------------------------
+
+You can highlight search words in templates by use **sphinx_highlight** filter.
+
+For example:
+``` twig
+<div class="text-block">
+    {{ content|sphinx_highlight('IndexName', 'query word', {limit:100})|raw }}
+</div>
+```
+
+In this example matches for **"query word"** in **content** variable will be highlighted for **IndexName** index. It use [BuildExcerpts](https://github.com/romainneutron/Sphinx-Search-API-PHP-Client/blob/master/sphinxapi.php#L1309) method for this.
+
 Examples
 --------
 

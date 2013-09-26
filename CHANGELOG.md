@@ -1,6 +1,10 @@
 Changelog for SphinxsearchBundle
 ================================
 
+* 26-09-2013 version 0.2.3
+
+    - Add twig extension to highlight search words in content
+
 * 26-09-2013 version 0.2.2
 
     - Now bridge can convert queries with multiple indexes
