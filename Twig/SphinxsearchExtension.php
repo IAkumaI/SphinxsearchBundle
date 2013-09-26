@@ -29,11 +29,10 @@ class SphinxsearchExtension extends \Twig_Extension
      * @param string $text Text content
      * @param string $index Sphinx index name
      * @param string $query Query to search
-     * @param integer[optional] $trim If set to integer will return trimmed string of this length
      *
      * @return string
      */
-    public function sphinx_highlight($text, $index, $query, $trim = false)
+    public function sphinx_highlight($text, $index, $query)
     {
         $result = $this->searchd->getClient()->BuildExcerpts(array($text), $index, $query);
 
