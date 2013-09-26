@@ -54,4 +54,13 @@ class SphinxsearchExtension extends \Twig_Extension
             'sphinx_highlight' => new \Twig_Filter_Function(array($this, 'sphinx_highlight')),
         );
     }
+
+    /**
+     * Implement getName() method
+     * @return string
+     */
+    public function getName()
+    {
+        return 'iakumai_sphinxsearch_extension_0';
+    }
 }
