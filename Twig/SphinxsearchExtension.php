@@ -35,7 +35,7 @@ class SphinxsearchExtension extends \Twig_Extension
      */
     public function sphinx_highlight($text, $index, $query, $options = array())
     {
-        $result = $this->searchd->getClient()->BuildExcerpts(array($text), $index, $query, $options);
+        $result = $this->searchd->getClient()->BuildExcerpts(array((string)$text), $index, $query, $options);
 
         if (!empty($result[0])) {
             return $result[0];
