@@ -17,7 +17,11 @@ services:
 
     # Twig extension
     iakumai.sphinxsearch.twig.extension_0:
+<<<<<<< HEAD
         class: IAkumaI\SphinxsearchBundle\Twig\SphinxsearchExtension
+=======
+        class: IAkumaI\SphinxsearchBundle\SphinxsearchExtension
+>>>>>>> a5f7a06871b698dd4ee9194ff999fc9a92e05262
         arguments: [@iakumai.sphinxsearch.search]
         tags:
             - {name: twig.extension}
