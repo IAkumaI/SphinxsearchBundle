@@ -37,6 +37,10 @@ class SphinxsearchExtension extends Extension
         if (isset($config['indexes'])) {
             $container->setParameter('iakumai.sphinxsearch.indexes', $config['indexes']);
         }
+
+        if (isset($config['doctrine'])) {
+            $container->setParameter('iakumai.sphinxsearch.doctrine.entity_manager', $config['doctrine']['entity_manager']);
+        }
     }
 
     public function getAlias()

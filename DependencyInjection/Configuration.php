@@ -49,6 +49,16 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
+        $rootNode
+            ->children()
+                ->arrayNode('doctrine')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('entity_manager')->defaultValue('doctrine.orm.entity_manager')->end()
+                    ->end()
+                ->end()
+            ->end();
+
         return $treeBuilder;
     }
 }
