@@ -1,9 +1,11 @@
 Changelog for SphinxsearchBundle
 ================================
 
-* 26-09-2013 version 0.2.3
+* 27-09-2013 version 0.2.3
 
     - Add twig extension to highlight search words in content
+    - Doctrine bridge now can find entities in a one query for each index name
+    - Sphinxsearch service now can automatically add filters to select between two dates (and only one of it to)
 
 * 26-09-2013 version 0.2.2
 
