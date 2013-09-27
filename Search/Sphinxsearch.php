@@ -189,17 +189,17 @@ class Sphinxsearch
             $tsEnd = (int)$dateend->format('U');
 
             $this->getClient()->setSelect("*, IF({$field} >= {$tsStart}, 1, 0) + IF({$field} <= {$tsEnd}, 1, 0) AS {$fieldCond}");
-            $this->getClient()->setFilter('{$fieldCond}', array(2));
+            $this->getClient()->setFilter($fieldCond, array(2));
         } elseif ($datestart) {
             $tsStart = (int)$datestart->format('U');
 
             $this->getClient()->setSelect("*, IF({$field} >= {$tsStart}, 1, 0) AS {$fieldCond}");
-            $this->getClient()->setFilter('{$fieldCond}', array(1));
+            $this->getClient()->setFilter($fieldCond, array(1));
         } elseif ($dateend) {
             $tsEnd = (int)$dateend->format('U');
 
             $this->getClient()->setSelect("*, IF({$field} <= {$tsEnd}, 1, 0) AS {$fieldCond}");
-            $this->getClient()->setFilter('{$fieldCond}', array(1));
+            $this->getClient()->setFilter($fieldCond, array(1));
         }
     }
 
