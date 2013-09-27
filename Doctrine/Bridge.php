@@ -122,14 +122,27 @@ class Bridge implements BridgeInterface
             return $results;
         }
 
+        $dbQueries = array_reverse(array_keys($this->indexes));
+
         foreach ($results['matches'] as $id => &$match) {
             $match['entity'] = false;
 
             if (is_string($index)) {
-                $match['entity'] = $this->getEntityManager()->getRepository($this->indexes[$index])->find($id);
+                $dbQueries[$index][] = $id;
             } elseif (is_array($index) && isset($match['attrs']['index_name']) && isset($this->indexes[$match['attrs']['index_name']])) {
-                $entityName = $this->indexes[$match['attrs']['index_name']];
-                $match['entity'] = $this->getEntityManager()->getRepository($entityName)->find($id);
+                $dbQueries[$match['attrs']['index_name']][] = $id;
+            }
+        }
+
+        foreach ($dbQueries as $index => $ids) {
+            if (!isset($this->indexes[$index])) {
+                continue;
+            }
+
+            $entities = $this->getEntityManager()->getRepository($this->indexes[$index])->findBy(array('id' => $ids));
+
+            foreach ($ids as $id) {
+                $results['matches'][$id]['entity'] = $entities = $this->getEntityManager()->getRepository($this->indexes[$index])->find($id);
             }
         }
 
