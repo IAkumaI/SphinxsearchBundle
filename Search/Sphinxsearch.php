@@ -170,36 +170,27 @@ class Sphinxsearch
      * If set only one date it also works
      * If not one date is set method do nothing
      *
-     * @param string $field Timestamp field
+     * @param string $attr Timestamp attr
      * @param DateTime $datestart Date to start filter
      * @param DateTime $dateend   Date to end filter
-     *
-     * @throws InvalidArgumentException If $field contains special simbols
      */
-    public function setFilterBetweenDates($field, \DateTime $datestart = null, \DateTime $dateend = null)
+    public function setFilterBetweenDates($attr, \DateTime $datestart = null, \DateTime $dateend = null)
     {
-        if (!preg_match('/^[a-zA-Z0-9_]+$/', $field)) {
-            throw new \InvalidArgumentException('Field name can contains only "a-Z", "0-9" and "_" symbols');
-        }
-
-        $fieldCond = uniqid($field.'_');
-
         if ($datestart && $dateend) {
             $tsStart = (int)$datestart->format('U');
             $tsEnd = (int)$dateend->format('U');
 
-            $this->getClient()->setSelect("*, IF({$field} >= {$tsStart}, 1, 0) + IF({$field} <= {$tsEnd}, 1, 0) AS {$fieldCond}");
-            $this->getClient()->setFilter($fieldCond, array(2));
+            $this->getClient()->setFilterRange($attr, $tsStart, $tsEnd);
         } elseif ($datestart) {
             $tsStart = (int)$datestart->format('U');
+            $tsEnd = PHP_INT_MAX;
 
-            $this->getClient()->setSelect("*, IF({$field} >= {$tsStart}, 1, 0) AS {$fieldCond}");
-            $this->getClient()->setFilter($fieldCond, array(1));
+            $this->getClient()->setFilterRange($attr, $tsStart, $tsEnd);
         } elseif ($dateend) {
+            $tsStart = 0;
             $tsEnd = (int)$dateend->format('U');
 
-            $this->getClient()->setSelect("*, IF({$field} <= {$tsEnd}, 1, 0) AS {$fieldCond}");
-            $this->getClient()->setFilter($fieldCond, array(1));
+            $this->getClient()->setFilterRange($attr, $tsStart, $tsEnd);
         }
     }
 
