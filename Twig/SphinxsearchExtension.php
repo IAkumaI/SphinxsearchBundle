@@ -51,7 +51,7 @@ class SphinxsearchExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'sphinx_highlight' => new \Twig_Filter_Function(array($this, 'sphinx_highlight')),
+            'sphinx_highlight' => new \Twig_Filter_Function(array($this, 'sphinx_highlight'), array('is_safe' => array('html'))),
         );
     }
 

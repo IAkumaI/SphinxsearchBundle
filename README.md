@@ -82,7 +82,7 @@ You can highlight search words in templates by use **sphinx_highlight** filter.
 For example:
 ``` twig
 <div class="text-block">
-    {{ content|sphinx_highlight('IndexName', 'query word', {limit:100})|raw }}
+    {{ content|sphinx_highlight('IndexName', 'query word', {limit:100}) }}
 </div>
 ```
 

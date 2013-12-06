@@ -1,6 +1,10 @@
 Changelog for SphinxsearchBundle
 ================================
 
+* 06-12-2013 version 0.2.4
+
+    - Add is_safe => html to the sphinx_highlight twig filter
+
 * 27-09-2013 version 0.2.3
 
     - Add twig extension to highlight search words in content
