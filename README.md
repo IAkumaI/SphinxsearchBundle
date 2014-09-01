@@ -222,3 +222,26 @@ array(10) {
     }
     .........
 ```
+
+### Pagerfanta adapter
+
+This bundle also includes special adapter for excellent [Pagerfanta bundle](https://github.com/whiteoctober/WhiteOctoberPagerfantaBundle)
+
+``` php
+/** @var $sphinx \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch */
+$sphinx = $this->get('iakumai.sphinxsearch.search');
+
+/** @var $sphinxDoctrineBridge \IAkumaI\SphinxsearchBundle\Doctrine\Bridge */
+$sphinxDoctrineBridge = $this->get('iakumai.sphinxsearch.doctrine.bridge');
+$sphinx->setBridge($sphinxDoctrineBridge); //IMPORTANT! Set doctrine bridge.
+
+$query = 'search query';
+$entityIndexType = 'Books';
+
+$adapter = new \IAkumaI\SphinxsearchBundle\Pagerfanta\Adapter\SphinxSearchAdapter($sphinx, $query, $entityIndexType, [
+    'max_results' => 1000000,
+]);
+$pager = new Pagerfanta($adapter);
+// Use pagerfanta as always
+...
+```
