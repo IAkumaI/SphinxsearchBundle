@@ -11,6 +11,39 @@ use IAkumaI\SphinxsearchBundle\Doctrine\BridgeInterface;
 
 /**
  * Sphinx search engine
+ *
+ * @method string GetLastError () 
+ * @method string GetLastWarning ()
+ * @method bool IsConnectError()
+ * @method null SetServer ( $host, $port = 0 )
+ * @method null SetConnectTimeout ( $timeout )
+ *
+ * @method null SetLimits ( $offset, $limit, $max=0, $cutoff=0 )
+ * @method null setMaxQueryTime ( $max )
+ * @method null SetMatchMode ( $mode )
+ * @method null SetSortMode ( $mode, $sortby="" )
+ * @method null SetFieldWeights ( $weights )
+ * @method null SetIndexWeights ( $weights )
+ * @method null SetIDRange ( $min, $max )
+ * @method null SetFilter ( $attribute, $values, $exclude=false )
+ * @method null SetFilterRange ( $attribute, $min, $max, $exclude=false )
+ * @method null SetFilterFloatRange ( $attribute, $min, $max, $exclude=false )
+ * @method null SetGeoAnchor ( $attrlat, $attrlong, $lat, $long )
+ * @method null SetGroupBy ( $attribute, $func, $groupsort="@group desc" )
+ * @method null SetGroupDistinct ( $attribute )
+ * @method null SetRetries ( $count, $delay=0 )
+ * @method null SetArrayResult ( $arrayresult )
+ * @method null SetOverride ( $attrname, $attrtype, $values )
+ * @method null SetSelect ( $select )
+ *
+ * @method null ResetFilters ()
+ * @method null ResetGroupBy ()
+ * @method null ResetOverrides ()
+ *
+ * @method bool|array BuildExcerpts ( $docs, $index, $words, $opts=array() )
+ * @method bool|array BuildKeywords ( $query, $index, $hits )
+ *
+ * @method array Status ()
  */
 class Sphinxsearch
 {
@@ -195,7 +228,9 @@ class Sphinxsearch
     }
 
     /**
-     * Magic PHP-proxy
+     * Magic PHP-proxy for SphinxAPI
+     *
+     * Methods listed in class-level PHPDoc
      */
     public function __call($method, $args)
     {
