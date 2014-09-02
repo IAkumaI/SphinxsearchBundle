@@ -116,6 +116,14 @@ class Sphinxsearch
     }
 
     /**
+     * @return BridgeInterface
+     */
+    public function getBridge()
+    {
+        return $this->bridge;
+    }
+
+    /**
      * Search for a query string
      * @param  string  $query   Search query
      * @param  array   $indexes Index list to perform the search
