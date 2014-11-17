@@ -103,6 +103,11 @@ class Sphinxsearch
             // To prevent notice
             define('SEARCHD_OK', 0);
         }
+
+        if (!defined('SEARCHD_WARNING')) {
+            // To prevent notice
+            define('SEARCHD_WARNING', 3);
+        }
     }
 
     /**
@@ -132,7 +137,7 @@ class Sphinxsearch
      * @return array           Search results
      *
      * @throws EmptyIndexException If $indexes is empty
-     * @throws RuntimeException If seaarch failed
+     * @throws \RuntimeException If seaarch failed
      */
     public function search($query, array $indexes, $escape = true)
     {
@@ -148,8 +153,16 @@ class Sphinxsearch
 
         $results = $this->sphinx->query($query, $qIndex);
 
-        if (!is_array($results) || !isset($results['status']) || $results['status'] !== SEARCHD_OK) {
-            throw new \RuntimeException(sprintf('Searching for "%s" failed with error "%s"', $query, $this->sphinx->getLastError()));
+        if (!is_array($results)) {
+            throw new \RuntimeException(sprintf('Searching for "%s" failed. Result is not an array. Error "%s"', $query, $this->sphinx->getLastError()));
+        }
+
+        if (!isset($results['status'])) {
+            throw new \RuntimeException(sprintf('Searching for "%s" failed. Result with no status. Error "%s"', $query, $this->sphinx->getLastError()));
+        }
+
+        if ($results['status'] !== SEARCHD_OK && $results['status'] !== SEARCHD_WARNING) {
+            throw new \RuntimeException(sprintf('Searching for "%s" failed. Result has bad status. Error "%s"', $query, $this->sphinx->getLastError()));
         }
 
         return $results;
@@ -163,8 +176,8 @@ class Sphinxsearch
      *
      * @return array           Search results
      *
-     * @throws InvalidArgumentException If $index is not valid
-     * @throws LogicException If bridge was not set
+     * @throws \InvalidArgumentException If $index is not valid
+     * @throws \LogicException If bridge was not set
      */
     public function searchEx($query, $index, $escape = true)
     {
@@ -212,8 +225,8 @@ class Sphinxsearch
      * If not one date is set method do nothing
      *
      * @param string $attr Timestamp attr
-     * @param DateTime $datestart Date to start filter
-     * @param DateTime $dateend   Date to end filter
+     * @param \DateTime $datestart Date to start filter
+     * @param \DateTime $dateend   Date to end filter
      */
     public function setFilterBetweenDates($attr, \DateTime $datestart = null, \DateTime $dateend = null)
     {
