@@ -8,16 +8,16 @@ services:
             - %iakumai.sphinxsearch.searchd.port%
             - %iakumai.sphinxsearch.searchd.socket%
         calls:
-            - [setBridge, [@iakumai.sphinxsearch.doctrine.bridge]]
+            - [setBridge, ["@iakumai.sphinxsearch.doctrine.bridge"]]
 
     # Doctrine Bridge
     iakumai.sphinxsearch.doctrine.bridge:
         class: %iakumai.sphinxsearch.doctrine.bridge.class%
-        arguments: [@service_container, %iakumai.sphinxsearch.doctrine.entity_manager%, %iakumai.sphinxsearch.indexes%]
+        arguments: ["@service_container", %iakumai.sphinxsearch.doctrine.entity_manager%, %iakumai.sphinxsearch.indexes%]
 
     # Twig extension
     iakumai.sphinxsearch.twig.extension_0:
         class: IAkumaI\SphinxsearchBundle\Twig\SphinxsearchExtension
-        arguments: [@iakumai.sphinxsearch.search]
+        arguments: ["@iakumai.sphinxsearch.search"]
         tags:
             - {name: twig.extension}
